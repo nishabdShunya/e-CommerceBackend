@@ -37,12 +37,12 @@ app.use((req, res, next) => {
         .catch(err => console.log(err));
 });
 
+app.use('/admin', adminRoutes);
+app.use(shopRoutes);
+
 app.use((req, res, next) => {
     res.sendFile(path.join(__dirname, `public/e-CommerceFrontend/${req.url}`));
 })
-
-app.use('/admin', adminRoutes);
-app.use(shopRoutes);
 
 // app.use(errorController.get404);
 
