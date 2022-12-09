@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Project</title>
+    <link rel="stylesheet" href="./styles/commonFromBE.css">
+    <link rel="stylesheet" href="./styles/navigationFromBE.css">
+    <link rel="stylesheet" href="./styles/storeFromBE.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+</head>
+
+<body>
+    <nav>
+        <ul>
+            <li><a class="main-nav-links" href="./indexFromBE.html">HOME</a></li>
+            <li><a class="main-nav-links" href="./aboutFromBE.html">ABOUT</a></li>
+            <li><a class="main-nav-links active" href="#">STORE</a></li>
+            <li><a class="main-nav-links" href="./ordersFromBE.html">ORDERS</a></li>
+        </ul>
+        <button id="cart-nav-btn" class="active">Cart (<span id="cart-qty">0</span>)</button>
+    </nav>
+    <header>
+        <h1>The Generics</h1>
+    </header>
+    <main id="store-main">
+
+        <!-- PRODUCTS -->
+        <section id="products">
+            <h2 class="heading-2">PRODUCTS</h2>
+            <ul id="product-list"></ul>
+        </section>
+        <!-- Pagination -->
+        <div id="pagination-container"></div>
+
+        <!-- See The Cart Button -->
+        <div id="submit-btn-container">
+            <button type="submit" id="see-cart-btn">See The Cart</button>
+        </div>
+
+        <!-- CART CONTAINER -->
+        <div id="cart-container">
+            <button id="cart-close-btn">&times;</button>
+            <h2>CART</h2>
+            <ul id="cart"></ul>
+            <p>TOTAL : <span id="total-span"></span></p>
+            <button id="purchase-btn">Order Now!</button>
+        </div>
+
+        <!-- NOTIFICATION CONTAINER -->
+        <div id="notification-container"></div>
+
+    </main>
+    <footer>
+        <p>The Generics</p>
+        <div>
+            <a href="www.youtube.com"><img src="./images/youtube-logo.png" alt="youtube-logo" class="logo"></a>
+            <a href="www.facebook.com"><img src="./images/facebook-logo.png" alt="facebook-logo" class="logo"></a>
+            <a href="www.spotify.com"><img src="./images/spotify-logo.png" alt="spotify-logo" class="logo"></a>
+        </div>
+    </footer>
+</body>
+
+<script src="storeFromBE.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.0/axios.min.js"></script>
+
+</html>

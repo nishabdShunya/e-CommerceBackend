@@ -1,0 +1,52 @@
+#orders-main {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#orders-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.order-items {
+    background-color: black;
+    color: gold;
+    padding: 1rem;
+    margin: 4rem;
+    width: 90vw;
+}
+
+.order-items hr {
+    border: 1px solid gold;
+    background-color: gold;
+}
+
+.order-items p {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.order-products-list {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.order-products-list li {
+    color: white;
+    margin: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.order-products-list li img {
+    width: 18rem;
+    height: 18rem;
+}

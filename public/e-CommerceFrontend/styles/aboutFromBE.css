@@ -1,0 +1,28 @@
+#about-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#about-main>p {
+    flex: 2;
+    display: flex;
+    justify-content: flex-start;
+    padding: 2rem 10rem 2rem 2rem;
+}
+
+#about-main>div {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    padding: 2rem 2rem 2rem 2rem;
+}
+
+#about-img {
+    background-image: url('../images/about.jpg');
+    background-position: right;
+    object-fit: contain;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+}

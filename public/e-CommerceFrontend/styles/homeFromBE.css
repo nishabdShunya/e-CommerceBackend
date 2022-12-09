@@ -1,0 +1,104 @@
+#home-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 3rem;
+}
+
+#get-album-btn{
+    width: 30rem;
+    height: 5rem;
+    margin-bottom: 3rem;
+    border: none;
+    font-family: inherit;
+    font-size: 2rem;
+    background-color: black;
+    color:white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 300ms ease-in-out, color 300ms ease-in-out;
+}
+
+#get-album-btn:hover {
+    color:gold;
+    cursor: pointer;
+}
+
+#play-btn {
+    width: 8rem;
+    height: 8rem;
+    padding-left: 1.5rem;
+    border-radius: 50%;
+    font-family: inherit;
+    font-size: 4rem;
+    background-color:black;
+    color:white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    transition: background 300ms ease-in-out, color 300ms ease-in-out;
+}
+
+#play-btn:hover {
+    color:gold;
+    cursor: pointer;
+}
+
+#home-main,
+#tours,
+#schedules {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#tours {
+    list-style-type: none;
+    padding: 2rem 0;
+    align-items: stretch;
+    width: 60vw;
+}
+
+.tour {
+    background-color: black;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+#schedules {
+    flex-direction: row;
+    list-style-type: none;
+    padding: 0;
+    justify-content: space-between;
+}
+
+.schedule {
+    flex: 1;
+    margin: 2rem 2rem;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.location {
+    flex: 2;
+}
+
+.buy-ticket-btn {
+    padding: 1rem;
+    margin-right: 1rem;
+    background-color:gold;
+    color: black;
+    border: none;
+    font-family: inherit;
+    transition: background 300ms ease-in, color 300ms ease-in;
+}
+
+.buy-ticket-btn:hover {
+    background-color: rebeccapurple;
+    color: white;
+    cursor: pointer;
+}
