@@ -8,17 +8,21 @@ const seeCartBtn = document.getElementById('see-cart-btn');
 const navCartBtn = document.getElementById('cart-nav-btn');
 const cartXBtn = document.getElementById('cart-close-btn');
 
-window.addEventListener('DOMContentLoaded', (event) => {
-    let page = 1;
-    axios.get(`http://52.197.202.118:3000/products?page=${page}`)
-        .then(response => {
+window.addEventListener('DOMContentLoaded', async (event) => {
+    try {
+        let page = 1;
+        const response = await axios.get(`http://52.197.202.118:3000/products?page=${page}`)
+        if (response.status === 200) {
             showProducts(response.data.pageProducts);
             showPagination(response.data.paginationInfo);
             createCart();
-        })
-        .catch(err => console.log(err));
+        } else {
+            throw new Error('Something went wrong please try again.');
+        }
+    } catch (err) {
+        alert(err);
+    }
 });
-
 
 function showPagination(paginationInfo) {
     paginationContainer.innerHTML = '';
@@ -27,39 +31,54 @@ function showPagination(paginationInfo) {
         previousPageBtn.classList.add('pagination-btns');
         previousPageBtn.innerText = paginationInfo.previousPage;
         paginationContainer.appendChild(previousPageBtn);
-        previousPageBtn.addEventListener('click', (event) => {
-            axios.get(`http://52.197.202.118:3000/products?page=${paginationInfo.previousPage}`)
-                .then(response => {
+        previousPageBtn.addEventListener('click', async (event) => {
+            try {
+                const response = await axios.get(`http://52.197.202.118:3000/products?page=${paginationInfo.previousPage}`)
+                if (response.status === 200) {
                     showProducts(response.data.pageProducts);
                     showPagination(response.data.paginationInfo);
-                })
-                .catch(err => console.log(err));
+                } else {
+                    throw new Error(`Something went wrong while loading page ${paginationInfo.previousPage}. Please try again.`);
+                }
+            } catch (err) {
+                alert(err);
+            }
         })
     }
     const currentPageBtn = document.createElement('button');
     currentPageBtn.classList.add('pagination-btns');
     currentPageBtn.innerText = paginationInfo.currentPage;
     paginationContainer.appendChild(currentPageBtn);
-    currentPageBtn.addEventListener('click', (event) => {
-        axios.get(`http://52.197.202.118:3000/products?page=${paginationInfo.currentPage}`)
-            .then(response => {
+    currentPageBtn.addEventListener('click', async (event) => {
+        try {
+            const response = await axios.get(`http://52.197.202.118:3000/products?page=${paginationInfo.currentPage}`)
+            if (response.status === 200) {
                 showProducts(response.data.pageProducts);
                 showPagination(response.data.paginationInfo);
-            })
-            .catch(err => console.log(err));
+            } else {
+                throw new Error(`Something went wrong while loading page ${paginationInfo.currentPage}. Please try again.`);
+            }
+        } catch (err) {
+            alert(err);
+        }
     })
     if (paginationInfo.hasNextPage) {
         const nextPageBtn = document.createElement('button');
         nextPageBtn.classList.add('pagination-btns');
         nextPageBtn.innerText = paginationInfo.nextPage;
         paginationContainer.appendChild(nextPageBtn);
-        nextPageBtn.addEventListener('click', (event) => {
-            axios.get(`http://52.197.202.118:3000/products?page=${paginationInfo.nextPage}`)
-                .then(response => {
+        nextPageBtn.addEventListener('click', async (event) => {
+            try {
+                const response = await axios.get(`http://52.197.202.118:3000/products?page=${paginationInfo.nextPage}`)
+                if (response.status === 200) {
                     showProducts(response.data.pageProducts);
                     showPagination(response.data.paginationInfo);
-                })
-                .catch(err => console.log(err));
+                } else {
+                    throw new Error(`Something went wrong while loading page ${paginationInfo.nextPage}. Please try again.`);
+                }
+            } catch (err) {
+                alert(err);
+            }
         })
     }
 }
@@ -82,17 +101,21 @@ function showProducts(products) {
     }
 }
 
-function addToCart(id, title) {
-    axios.post('http://52.197.202.118:3000/cart', {
-        productId: id,
-        productTitle: title
-    })
-        .then(response => {
-            showNotification(response.data.message);
-            emptyCart();
-            createCart();
+async function addToCart(id, title) {
+    try {
+        const response = await axios.post('http://52.197.202.118:3000/cart', {
+            productId: id,
+            productTitle: title
         })
-        .catch(err => console.log(err));
+        if (response.status === 201) {
+            showNotification(response.data.message);
+            createCart();
+        } else {
+            throw new Error('Something went wrong. Please try again.');
+        }
+    } catch (err) {
+        showNotification(err);
+    }
 };
 
 function showNotification(msg) {
@@ -106,34 +129,34 @@ function showNotification(msg) {
     }, 3000);
 };
 
-function emptyCart() {
-    while (cart.hasChildNodes()) {
-        cart.removeChild(cart.firstChild);
-    }
-}
-
-function createCart() {
-    axios.get(`http://52.197.202.118:3000/cart`)
-        .then(response => {
-            const products = response.data;
+async function createCart() {
+    cart.innerHTML = '';
+    try {
+        const response = await axios.get(`http://52.197.202.118:3000/cart`)
+        if (response.status === 200) {
+            const products = response.data.products;
             for (let product of products) {
                 const cartItem = `
-                <li class="cart-item">
-                    <img src="${product.imageUrl}" alt="${product.title}">
-                    <div class="remove-from-cart-container">
-                        <div>    
-                            <p class = "item-title" style="font-weight: 800;">${product.title}</p>
-                            <p class = "item-price">$${product.price}</p>
-                            <input type="number" class="item-quantity" value="${product.cartItem.quantity}" onchange="changeOfQuantity(event, '${product.id}')">
-                        </div>
-                        <button class="remove-btns" onclick="removeItemFromCart('${product.id}')">REMOVE</button>
+            <li class="cart-item">
+                <img src="${product.imageUrl}" alt="${product.title}">
+                <div class="remove-from-cart-container">
+                    <div>    
+                        <p class = "item-title" style="font-weight: 800;">${product.title}</p>
+                        <p class = "item-price">$${product.price}</p>
+                        <input type="number" class="item-quantity" value="${product.cartItem.quantity}" onchange="changeOfQuantity(event, '${product.id}')">
                     </div>
-                </li>`;
+                    <button class="remove-btns" onclick="removeItemFromCart('${product.id}')">REMOVE</button>
+                </div>
+            </li>`;
                 cart.innerHTML += cartItem;
             }
             updateTotal();
-        })
-        .catch(err => console.log(err))
+        } else {
+            throw new Error('Something went wrong. Please refresh the page');
+        }
+    } catch (err) {
+        alert(err);
+    }
 }
 
 function updateTotal() {
@@ -153,27 +176,35 @@ function updateTotal() {
     navCartQty.innerText = totalQty;
 };
 
-function removeItemFromCart(id) {
-    axios.delete(`http://52.197.202.118:3000/cart/${id}`)
-        .then(response => {
+async function removeItemFromCart(id) {
+    try {
+        const response = await axios.delete(`http://52.197.202.118:3000/cart/${id}`)
+        if (response.status === 200) {
             showNotification(response.data.message);
-            emptyCart();
             createCart();
-        })
-        .catch(err => console.log(err));
+        } else {
+            throw new Error('Failed to remove the product. Please try again.');
+        }
+    } catch (err) {
+        showNotification(err);
+    }
 }
 
-function changeOfQuantity(event, id) {
-    const input = event.target;
-    if (isNaN(input.value) || input.value < 1) {
-        input.value = 1;
-    }
-    axios.patch(`http://52.197.202.118:3000/cart/${id}`, { quantity: input.value })
-        .then(response => {
-            emptyCart();
+async function changeOfQuantity(event, id) {
+    try {
+        const input = event.target;
+        if (isNaN(input.value) || input.value < 1) {
+            input.value = 1;
+        }
+        const response = await axios.patch(`http://52.197.202.118:3000/cart/${id}`, { quantity: input.value })
+        if (response.status === 200) {
             createCart();
-        })
-        .catch(err => console.log(err))
+        } else {
+            throw new Error('Failed to update the quantity. Please try again.');
+        }
+    } catch (err) {
+        showNotification(err);
+    }
 }
 
 // Opening & Closing the Cart
@@ -182,7 +213,6 @@ navCartBtn.addEventListener('click', showCart);
 cartXBtn.addEventListener('click', hideCart);
 
 function showCart(event) {
-    emptyCart();
     createCart();
     cartContainer.style.display = 'flex';
 }
@@ -193,12 +223,17 @@ function hideCart(event) {
 
 // Placing Order on Cart Page
 const orderNowBtn = document.getElementById('purchase-btn');
-orderNowBtn.addEventListener('click', (event) => {
-    axios.post('http://52.197.202.118:3000/create-order')
-        .then(response => {
+orderNowBtn.addEventListener('click', async (event) => {
+    try {
+        const response = await axios.post('http://52.197.202.118:3000/create-order')
+        if (response.status === 201) {
             showNotification(response.data.message);
-            emptyCart();
+            cart.innerHTML = '';
             updateTotal();
-        })
-        .catch(err => console.log(err));
+        } else {
+            throw new Error('Something went wrong. Please try again placing your order.');
+        }
+    } catch (err) {
+        showNotification(err);
+    }
 })

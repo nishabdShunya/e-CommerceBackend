@@ -2,10 +2,11 @@ const ordersList = document.getElementById('orders-list');
 
 window.addEventListener('DOMContentLoaded', showOrders);
 
-function showOrders(event) {
-    axios.get('http://52.197.202.118:3000/orders')
-        .then(response => {
-            const orders = response.data;
+async function showOrders(event) {
+    try {
+        const response = await axios.get('http://52.197.202.118:3000/orders')
+        if (response.status === 200) {
+            const orders = response.data.orders;
             for (let order of orders) {
                 const orderItem = `
                 <li class="order-items">
@@ -33,6 +34,10 @@ function showOrders(event) {
                 const order = document.getElementsByClassName('order-items')[i];
                 order.innerHTML += orderTotal;
             }
-        })
-        .catch(err => console.log(err));
+        } else {
+            throw new Error('Something went wrong. Please try again.');
+        }
+    } catch (err) {
+        alert(err);
+    }
 }
